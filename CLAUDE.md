@@ -87,7 +87,20 @@ because it is easy to produce a plausible-looking wrong answer here.
   describes reviewed games only. Say so in the output, do not impute it.
 - `estimated_owners` is a bucketed SteamSpy model output, not a measured count.
   Treat it as interval-censored and say where the interval came from. The
-  SteamSpy playtime columns are modelled too.
+  SteamSpy playtime columns are inferred from public Steam profiles, so they are
+  estimates from a self-selected sample. Never call either one measured.
+- `price` is the price at scrape time, not the launch price. Games are repriced
+  and permanently discounted, so price answers what games at that point look
+  like now, not what a studio should charge at launch. Say so wherever price
+  carries a conclusion.
+- "Story-driven" is not a field. Build it in notebook `02` from Steam
+  `categories` and `tags` plus HLTB `type`, write the rule down, and report how
+  many games it keeps. It is a design choice a marker can question.
+- The completion ratio has asymmetric uncertainty. `main_story_polled` gives the
+  exact count behind the denominator, but the numerator has only a bucketed
+  owner range, with no count of the profiles behind the playtime median. Model
+  the denominator's uncertainty properly and state that the numerator's cannot
+  be.
 - The Steam to HowLongToBeat join is on normalised title plus release year, so
   it matches a biased subset. Report the match rate, and compare matched against
   unmatched rows on the variables you do have before drawing conclusions from
@@ -114,6 +127,12 @@ Set by the course brief, do not exceed them:
 
 Drafts live under `docs/`. Final submissions are uploaded to the shared Drive
 folder linked in `README.md`.
+
+## Markdown formatting
+
+Do not hard-wrap prose. One paragraph is one line, one list item is one line,
+however long it runs. Wrapping belongs to the editor, not the file. Code fences,
+tables and `$$` math blocks keep their own line structure.
 
 ## Writing style for any prose you draft
 

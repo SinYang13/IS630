@@ -2,8 +2,7 @@
 
 IS630 Statistical Thinking in Data Science (G1), AY2026 Aug
 
-Submission files (proposal, slides, report, declaration, code zip):
-https://drive.google.com/drive/folders/1iuUDbuXkfXNcnyEG2KQFCoV7JBL8h6j-?usp=sharing
+Submission files (proposal, slides, report, declaration, code zip): https://drive.google.com/drive/folders/1iuUDbuXkfXNcnyEG2KQFCoV7JBL8h6j-?usp=sharing
 
 ```
 IS630/
@@ -23,38 +22,52 @@ IS630/
 
 ## Section 1: Abstract
 
-
 ## Section 2: Problem, motivation and objectives
 
 ### 2a(i) Problem
 
-A small studio interested in developing a game commits to a genre, a scope and a price range long before its release. However, it has no way of knowing if players will like it until its release.
-
-They may have limited budgets to run experiments or buy market research, so secondary data is the main evidence available. Public evidence that a studio could learn from such as Steam / Metacritic reviews, however, do not close that gap. These scores exist only when somebody chooses to review (selection bias), and are often percentages without absolute counts stated (sampling variability).
+A small studio interested in developing a game commits to a genre, a scope and a price range long before its release. However, it might have no way of knowing if players will like it until then.
 
 ### 2a(ii) Motivation
 
-We want to study the population of games released on Steam to see if a studio can learn from those insights to deliver a well received game. 
+A small studio has less flexibility with poor selling games as larger studios do. As such, the value of understanding future performance is greater.
 
-We propose a new metric beyond pure review rating - completion rate based on typical game time. A 1.00 completion rate indicates that the median player spent the typical number of hours a game takes to complete. We believe that this is a good metric that reduces the impact of game popularity.
-
-This presents an issue in that many games are open ended and thus have no set typical playtime (e.g. competitive games, sandbox games). We focus primarily on story-driven games in this case.
+They may have limited budgets to run experiments or buy market research, so secondary data is the main evidence available. Public evidence that a studio could learn from such as Steam / Metacritic reviews, however, do not close that gap. These scores exist only when somebody chooses to review (selection bias), and are often percentages without absolute counts stated (sampling variability).
 
 ### 2a(iii) Objectives
 
-
+1. Quantify how far critic scores track player reception, and identify where the two diverge.
+2. Estimate player reception from the variables a studio controls, weighting each game by the number of reviews behind it
+3. Define and compute a completion ratio from Steam playtime and HowLongToBeat completion times
+4. Estimate completion from the same controllable variables
 
 ### 2b Analytical questions
 
+1. Are critic reviews a good estimator for player reviews? Critics are often the first to review a game and early reviews by critics could be generalisable to the larger gamer population. We study whether $\bar{x}_{critics}$ is a good estimator for $\mu_{players}$ after scaling.
 
+2. Can controllable variables help us understand how well a game is received? A game studio can only control certain factors, and we want to understand if there is any predictive performance in these factors to predict its positive review rate.
+
+$$positive_i \sim \text{BetaBinomial}(n_i,\ \mu_i,\ \phi), \qquad n_i = positive_i + negative_i$$
+
+$$\text{logit}(\mu_i) = \beta_0 + \beta_{genre} + \beta_{price} price_i + \beta_{age} age_i + \dots + u_{developer[i]}$$
+
+   $u_{developer[i]}$ is a random effect, since games from one studio are not independent observations.
+
+3. Similar to AQ2, we want to understand if game completion rate can be predicted. Unlike review counts and owner estimates, the ratio does not inflate with a game's audience size, though its precision still depends on how many players and how many completion reports sit behind each side.
+
+$$ratio_i = \frac{median\_playtime\_forever_i / 60}{main\_story_i}, \qquad ratio_i \sim \text{Gamma}(\mu_i,\ \phi)$$
+
+$$\log(\mu_i) = \beta_0 + \beta_{genre} + \beta_{price} price_i + \beta_{age} age_i + \dots + u_{developer[i]}$$
 
 ### 2c Context and novelty
 
-Both datasets are well used on Kaggle, so the novelty is methodological rather
-than in the source: the join produces a completion measure that neither file
-carries, and partial pooling keeps low-visibility games in as weak evidence
-instead of filtering them out. Selection is treated as part of the question,
-including the match rate of the join itself.
+[to insert relevant studies]
+
+We propose the completion ratio as an alternative metric. Steam records how long the median owner played a game, HowLongToBeat records how long that game typically takes to finish, and neither source carries the ratio of the two. A ratio of 1.00 means the median player spent the typical number of hours a game takes to complete, and above 1.00 means they went past it.
+
+Both datasets are well used on Kaggle, so the novelty is methodological rather than in the source. Partial pooling keeps low-visibility games in as weak evidence instead of filtering them out, and selection is treated as part of the question, including the match rate of the join itself.
+
+Many games are open ended and thus have no set typical playtime (e.g. competitive games, sandbox games). The completion work is therefore restricted to story-driven games, and we report how many games that leaves.
 
 ## Section 3a: Dataset and variables
 
@@ -67,14 +80,13 @@ including the match rate of the join itself.
 | Size | 1.35 GB | 85 MB |
 | Licence | MIT | MIT |
 | Version used | v48, 11 Sep 2026 | v5, 29 Mar 2026 |
-| Contributes | price, review counts, measured playtime, critic score, genres, developers | main story, main plus sides and completionist hours, each with a poll count |
+| Contributes | price, review counts, estimated playtime, critic score, genres, developers | main story, main plus sides and completionist hours, each with a poll count |
 
-https://www.kaggle.com/datasets/fronkongames/steam-games-dataset
-https://www.kaggle.com/datasets/b4n4n4p0wer/how-long-to-beat-video-game-playtime-dataset
+https://www.kaggle.com/datasets/fronkongames/steam-games-dataset https://www.kaggle.com/datasets/b4n4n4p0wer/how-long-to-beat-video-game-playtime-dataset
 
-The Steam file covers published games only, with no DLC, episodes, music or
-videos. There is no shared identifier, so the join is on normalised title plus
-release year and notebook `02` records the match rate.
+The Steam file covers published games only, with no DLC, episodes, music or videos. There is no shared identifier, so the join is on normalised title plus release year and notebook `02` records the match rate.
+
+Playtime and ownership come from SteamSpy rather than Valve. SteamSpy infers them from public Steam profiles, which are public by choice, so both are estimates from a self-selected sample rather than published counts.
 
 ### 3a(ii) Data dictionary
 
@@ -87,7 +99,7 @@ Column names confirmed against the downloaded files in `01_data_audit.ipynb`.
 | Steam | `positive`, `negative` | counts | player reception and the sample size behind it |
 | Steam | `recommendations` | count | store recommendations |
 | Steam | `metacritic_score` | numeric 0 to 100 | critic reception |
-| Steam | `median_playtime_forever`, `average_playtime_forever` | minutes | measured engagement, numerator of the completion ratio |
+| Steam | `median_playtime_forever`, `average_playtime_forever` | minutes | engagement, a SteamSpy estimate. Numerator of the completion ratio |
 | Steam | `median_playtime_2weeks`, `average_playtime_2weeks` | minutes | retention signal |
 | Steam | `estimated_owners` | bucketed range | audience size, a SteamSpy estimate |
 | Steam | `peak_ccu` | count | concurrent audience |
@@ -102,13 +114,3 @@ Column names confirmed against the downloaded files in `01_data_audit.ipynb`.
 | HLTB | `main_plus_sides`, `completionist` and poll counts | hours, count | scope bands and the completionist gap |
 | HLTB | `genres`, `platform` | lists | cross-check against Steam genres |
 
-## Getting started
-
-```bash
-python -m venv .venv && .venv/Scripts/activate && pip install -r requirements.txt
-```
-
-Put your Kaggle API token at `~/.kaggle/kaggle.json` and run
-`notebooks/00_setup_and_acquisition.ipynb`. Keep the downloaded archives in
-`data/raw` unmodified, because the Steam dataset refreshes continuously and the
-proposal and report must come off the same version.
