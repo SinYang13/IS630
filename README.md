@@ -6,12 +6,12 @@ Submission files (proposal, slides, report, declaration, code zip): https://driv
 
 ```
 IS630/
-├── data/                   
+├── data/
 │   ├── raw/                Kaggle archives, unmodified
-│   ├── interim/            column-pruned Parquet
-│   ├── processed/          joined, analysis-ready tables
+│   ├── interim/            stage outputs, Parquet, one per notebook
+│   ├── processed/          analysis-ready table for the modelling notebooks
 │   └── external/
-├── notebooks/              
+├── notebooks/              one notebook per stage, each loads the last stage's output
 ├── src/
 │   └── is630/              shared code, imported by the notebooks
 ├── outputs/

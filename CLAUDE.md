@@ -36,8 +36,9 @@ lives, so keep it current and do not spin off parallel draft documents.
 - **No literature review.** The brief bans general-purpose GenAI for it and
   allows only SMU Library tools (Research Assistant, Scopus AI, Scite,
   SciSpace). Do not produce citations from memory. Never invent a reference.
-- Anything drafted with your help has to be declarable in `docs/declaration/`.
-  If you produce something substantial, mention that it needs declaring.
+- Anything drafted with your help has to be disclosed in the group's GenAI
+  declaration. If you produce something substantial, mention that it needs
+  declaring.
 
 ## Stack
 
@@ -68,6 +69,21 @@ remember the shell here is PowerShell by default.
 - Intermediate data is Parquet, not CSV. Only the final submission table is CSV.
 - Figures save to `outputs/figures` at 300 dpi with a named file, from code.
   Tables save to `outputs/tables`.
+
+## Pipeline
+
+Each notebook is one stage. A stage loads the dataset saved by the stage before
+it, applies its changes, and saves the result for the next stage. Only notebook
+`00` reads from `data/raw`.
+
+- Stage outputs are Parquet in `data/interim`, named after the notebook that
+  wrote them, for example `00_steam.parquet` or `02_joined.parquet`.
+- The analysis-ready table that the modelling notebooks share goes to
+  `data/processed`.
+- A stage never edits or overwrites an earlier stage's file. To change an
+  earlier step, edit that notebook and re-run every stage after it.
+- Each stage prints its row count in and out, so the filter funnel can be
+  reported without reconstructing it later.
 
 ## Statistical standards
 
@@ -125,8 +141,8 @@ Set by the course brief, do not exceed them:
 | Report | 10 A4 pages, font 11, excluding references | 10% with code base |
 | Medium article (alternative) | 15 minute read | same |
 
-Drafts live under `docs/`. Final submissions are uploaded to the shared Drive
-folder linked in `README.md`.
+Final submissions are uploaded to the shared Drive folder linked in
+`README.md`.
 
 ## Markdown formatting
 
