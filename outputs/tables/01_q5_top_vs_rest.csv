@@ -1,0 +1,16 @@
+list,measure,top_n,top_median,rest_n,rest_median
+Most reviewed (all games),Price,15,4.99,97011,2.39
+Most reviewed (all games),positive_rate,15,0.87,64553,0.82
+Most reviewed (all games),steam_year,15,2015.0,97011,2022.0
+Most reviewed (all games),language_count,15,19.0,97011,1.0
+Most reviewed (all games),Metacritic score,9,88.0,3356,76.0
+"Highest playtime (games, 500+ reviews)",Price,15,7.79,8176,4.39
+"Highest playtime (games, 500+ reviews)",positive_rate,15,0.85,8176,0.86
+"Highest playtime (games, 500+ reviews)",steam_year,15,2021.0,8176,2019.0
+"Highest playtime (games, 500+ reviews)",language_count,15,4.0,8176,6.0
+"Highest playtime (games, 500+ reviews)",Metacritic score,0,,2323,77.0
+Highest completion ratio (500+ reviews),Price,15,4.99,5519,4.79
+Highest completion ratio (500+ reviews),positive_rate,15,0.93,5519,0.87
+Highest completion ratio (500+ reviews),steam_year,15,2021.0,5519,2019.0
+Highest completion ratio (500+ reviews),language_count,15,3.0,5519,7.0
+Highest completion ratio (500+ reviews),Metacritic score,0,,1924,77.0

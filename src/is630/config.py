@@ -26,3 +26,7 @@ STEAM_ZIP = RAW / f"steam_v{STEAM_VERSION}.zip"
 HLTB_REF = "b4n4n4p0wer/how-long-to-beat-video-game-playtime-dataset"
 HLTB_VERSION = 5
 HLTB_ZIP = RAW / f"hltb_v{HLTB_VERSION}.zip"
+
+# Year the Steam archive was pulled. Used for game age, so it stays fixed with
+# the pinned dataset rather than moving with the clock.
+SNAPSHOT_YEAR = 2026
