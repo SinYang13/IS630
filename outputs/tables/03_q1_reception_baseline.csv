@@ -1,0 +1,2 @@
+Model,Training Games,Validation Games,Baseline Prediction,Validation MAE,Validation RMSE
+Mean Baseline,50843,12711,0.7606610770488361,0.18585526713540643,0.2403301487948343

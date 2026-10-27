@@ -8,6 +8,8 @@ join itself, carry no prefix: `title_key`, `matched_hltb`, `year_diff` and
 
 import numpy as np
 import pandas as pd
+import ast
+import re
 
 from . import config
 
@@ -54,10 +56,162 @@ def owner_bounds(s: pd.Series) -> pd.DataFrame:
     )
 
 
+
 def list_length(s: pd.Series) -> pd.Series:
-    """Count entries in a stringified list column such as supported languages."""
-    cleaned = s.fillna("").astype(str).str.strip("[]")
-    return cleaned.apply(lambda x: 0 if not x.strip() else len(x.split(",")))
+    """Count entries in a stringified list column such as supported_languages."""
+
+    def count_items(value):
+        if isinstance(value, (list, tuple, set)):
+            return len(value)
+
+        if pd.isna(value):
+            return 0
+
+        text = str(value).strip()
+
+        if not text or text.lower() in ("nan", "none", "[]"):
+            return 0
+
+        # Parse properly formatted stringified lists
+        try:
+            parsed = ast.literal_eval(text)
+
+            if isinstance(parsed, (list, tuple, set)):
+                return sum(bool(str(item).strip()) for item in parsed)
+
+            if isinstance(parsed, str):
+                return int(bool(parsed.strip()))
+
+        except (ValueError, SyntaxError):
+            pass
+
+        # Fallback for malformed stringified lists
+        quoted_items = re.findall(r"""['"]([^'"]+)['"]""", text)
+
+        if quoted_items:
+            return len(quoted_items)
+
+        # Fallback for comma-separated values
+        return sum(
+            bool(item.strip(" []'\""))
+            for item in text.split(",")
+        )
+
+    return s.apply(count_items).astype(int)
+
+
+def classify_story_driven(df: pd.DataFrame) -> pd.Series:
+    """Identify single-player games with narrative tags or Visual Novel genre."""
+
+    story_tags = [
+        "Story Rich",
+        "Visual Novel",
+        "Interactive Fiction",
+        "Narrative",
+        "Choices Matter",
+        "Choose Your Own Adventure"
+    ]
+
+    # Normalize relevant metadata
+    categories = df["steam_categories"].fillna("").astype(str)
+    tags = df["steam_tags"].fillna("").astype(str)
+    genres = df["steam_genres"].fillna("").astype(str)
+
+    # Identify single-player games
+    single_player = categories.str.contains(
+        "Single-player",
+        case=False,
+        regex=False
+    )
+
+    # Match complete narrative tag names
+    tag_pattern = (
+        r"(?<![A-Za-z0-9])(?:"
+        + "|".join(re.escape(tag) for tag in story_tags)
+        + r")(?![A-Za-z0-9])"
+    )
+
+    narrative_tags = tags.str.contains(
+        tag_pattern,
+        case=False,
+        regex=True
+    )
+
+    # Check Visual Novel genre
+    visual_novel_genre = genres.str.contains(
+        r"(?<![A-Za-z0-9])Visual Novel(?![A-Za-z0-9])",
+        case=False,
+        regex=True
+    )
+
+    # Return final classification
+    return (
+        single_player
+        & (narrative_tags | visual_novel_genre)
+    ).rename("flag_story_driven")
+
+
+def extract_primary_developer(
+    dev_series: pd.Series,
+    appid_series: pd.Series
+) -> pd.Series:
+    """Extract primary developer names for model grouping."""
+
+    def get_primary_developer(value, appid):
+        # Handle native lists
+        if isinstance(value, (list, tuple)):
+            developers = [
+                str(x).strip()
+                for x in value
+                if str(x).strip()
+            ]
+
+            if developers:
+                return developers[0].casefold()
+
+        elif pd.notna(value):
+            raw = str(value).strip()
+
+            if raw and raw not in ("[]", "None", "nan"):
+                try:
+                    parsed = ast.literal_eval(raw)
+
+                    if isinstance(parsed, (list, tuple)) and parsed:
+                        return str(parsed[0]).strip().casefold()
+
+                    if isinstance(parsed, str) and parsed.strip():
+                        return parsed.strip().casefold()
+
+                except (ValueError, SyntaxError):
+                    pass
+
+                # Fallback for non-standard strings
+                fallback = (
+                    raw.strip("[]")
+                    .split(",")[0]
+                    .strip(" '\"")
+                )
+
+                if fallback:
+                    return fallback.casefold()
+
+        # Unique group when developer information is missing
+        return f"unknown_app_{appid}"
+
+    if len(dev_series) != len(appid_series):
+        raise ValueError(
+            "Developer and App ID Series must have equal lengths."
+        )
+
+    return pd.Series(
+        [
+            get_primary_developer(developer, appid)
+            for developer, appid in zip(dev_series, appid_series)
+        ],
+        index=dev_series.index,
+        name="developer_group"
+    )
+
 
 
 def add_derived(df: pd.DataFrame) -> pd.DataFrame:
