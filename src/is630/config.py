@@ -1,6 +1,7 @@
 """Project paths, dataset pins and the random seed. Import from here, never hardcode."""
 
 import hashlib
+import zipfile
 from pathlib import Path
 
 import numpy as np
@@ -22,17 +23,21 @@ MODELS = OUTPUTS / "models"
 SEED = 42
 
 # Pinned dataset versions and SHA-256 checksums. The Steam dataset refreshes
-# continuously, so these must not change mid-project.
+# continuously, so these must not change mid-project. The checksum is of the CSV
+# inside the archive: Kaggle re-zips per download, so two downloads of the same
+# version differ as zips but not in content.
 STEAM_REF = "fronkongames/steam-games-dataset"
 STEAM_VERSION = 49
 STEAM_ZIP = RAW / f"steam_v{STEAM_VERSION}.zip"
-STEAM_SHA256 = "b0f431a6b2bec53b280a88efe64277b4df90ec2628a4d88d5efbdf25ad90786a"
+STEAM_CSV = "games.csv"
+STEAM_SHA256 = "1b48008b01a799d82385d6e66ba0cb65dd477b6aa4b6c2ec8c443025ab6880ad"
 STEAM_RAW_ROWS = 125_855
 
 HLTB_REF = "b4n4n4p0wer/how-long-to-beat-video-game-playtime-dataset"
 HLTB_VERSION = 5
 HLTB_ZIP = RAW / f"hltb_v{HLTB_VERSION}.zip"
-HLTB_SHA256 = "b155411befeea08b8228ea999850e19882c498fa1433247d72e86a2d29867648"
+HLTB_CSV = "hltb_dataset_normalized.csv"
+HLTB_SHA256 = "59b91b918e685250a6d833634493de880028848fade00db41bdfee187cf5c56d"
 HLTB_RAW_ROWS = 166_754
 
 # Pinned row counts and sorted steam_appid SHA-256 fingerprints for the
@@ -55,16 +60,16 @@ TEST_APPID_SHA256 = "9675b95cd06e63c3f005c98973c54d92057d2c08463e540d12dc71265f5
 SNAPSHOT_YEAR = 2026
 
 
-def verify_sha256(path: Path, expected_hex: str) -> str:
-    """Compute the SHA-256 hex digest of a file and assert it matches the pin."""
+def verify_sha256(path: Path, member: str, expected_hex: str) -> str:
+    """Compute the SHA-256 hex digest of one file inside a zip and assert it matches the pin."""
     h = hashlib.sha256()
-    with path.open("rb") as f:
+    with zipfile.ZipFile(path) as z, z.open(member) as f:
         for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
     actual = h.hexdigest()
     if actual != expected_hex:
         raise ValueError(
-            f"SHA-256 mismatch for {path.name}: expected {expected_hex}, got {actual}. "
+            f"SHA-256 mismatch for {member} in {path.name}: expected {expected_hex}, got {actual}. "
             "Do not use an unpinned re-download; copy the pinned archive from the shared Drive."
         )
     return actual

@@ -1,0 +1,4 @@
+ranking,median_reviews_top_50,min_reviews_top_50,overlap_with_shrunken rate,overlap_with_Wilson lower bound,overlap_with_raw rate
+raw rate,30.0,10,6.0,1.0,
+shrunken rate,686.5,58,,33.0,6.0
+Wilson lower bound,3303.5,167,33.0,,1.0
