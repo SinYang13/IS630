@@ -112,6 +112,7 @@ group.
 - This is not optional tidiness. The brief prohibits GenAI from interpreting
   results, evaluating model performance and making recommendations, so an
   interpretation an agent wrote would breach the declaration.
+- Every git commit made by an agent must carry a `Co-Authored-By:` trailer in the commit message.
 
 `notebooks/00_setup_and_acquisition.ipynb` is the reference for this layout.
 Match its structure when writing any later notebook.
