@@ -84,8 +84,17 @@ it, applies its changes, and saves the result for the next stage. Only notebook
   earlier step, edit that notebook and re-run every stage after it.
 - Each stage prints its row count in and out, so the filter funnel can be
   reported without reconstructing it later.
-- Notebook `00` joins the two datasets and splits the result 80/20. Every later
-  stage starts from `00_train.parquet`.
+- Notebook `00` joins the two datasets, scopes the result to story-driven
+  games matched to HowLongToBeat, and splits that scope 80/20. Every later
+  stage starts from `00_train.parquet`, so every later stage, EDA included,
+  sees only games with data from both sources. `00_joined.parquet` keeps every
+  Steam game.
+- Unmatched story-driven games are dropped, not filled in. Never set their HLTB
+  columns or completion ratio to 0 and never impute them: the value is unknown,
+  not zero, and imputing it from Steam variables would build the AQ3
+  predictors into the target. Notebook `00` compares matched against unmatched
+  story-driven games once, before dropping them. That comparison is the
+  selection limitation.
 - **Never load `00_test_holdout.parquet`.** It is scored once, in the final
   notebook, and nothing is refitted or reselected afterwards. Do not use it for
   EDA, for choosing a model, for tuning, or for checking whether a result holds.
@@ -141,9 +150,12 @@ because it is easy to produce a plausible-looking wrong answer here.
   and permanently discounted, so price answers what games at that point look
   like now, not what a studio should charge at launch. Say so wherever price
   carries a conclusion.
-- "Story-driven" is not a field. Build it in notebook `02` from Steam
-  `categories` and `tags` plus HLTB `type`, write the rule down, and report how
-  many games it keeps. It is a design choice a marker can question.
+- "Story-driven" is not a field. It is built in notebook `00` by
+  `classify_story_driven` in `src/is630/features.py`, from Steam `categories`,
+  `tags` and `genres` only, so it does not depend on the HLTB match. Notebook
+  `00` writes the rule down and reports how many games it keeps. It is a design
+  choice a marker can question. Games with no tags or categories cannot be
+  classified and fall out of scope. The scope then keeps matched games only.
 - The completion ratio has asymmetric uncertainty. `main_story_polled` gives the
   exact count behind the denominator, but the numerator has only a bucketed
   owner range, with no count of the profiles behind the playtime median. Model

@@ -1,0 +1,7 @@
+metric,usable,pct_usable,pct_zero_of_defined,spearman_with_age,spearman_with_reviews,skew_raw,skew_log
+steam_review_count,5281,100.0,0.3,0.249,,19.41,0.37
+steam_owners_lower,5281,100.0,38.4,0.318,0.806,26.56,0.84
+steam_playtime_hours,3605,68.3,31.7,-0.118,0.271,49.13,-0.7
+steam_positive_rate,5266,99.7,0.1,-0.167,0.132,-1.56,-2.99
+steam_metacritic_score,1095,20.7,0.0,-0.106,0.414,-0.72,-1.22
+completion_ratio,3605,68.3,31.7,-0.044,-0.107,36.06,-0.74

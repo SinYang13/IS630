@@ -36,15 +36,19 @@ HLTB_SHA256 = "b155411befeea08b8228ea999850e19882c498fa1433247d72e86a2d29867648"
 HLTB_RAW_ROWS = 166_754
 
 # Pinned row counts and sorted steam_appid SHA-256 fingerprints for the
-# deduplicated join and 80/20 train/test split.
+# deduplicated join, the scope (story-driven and matched to HowLongToBeat), and the 80/20 train/test split
+# drawn from that scope.
 JOINED_ROWS = 121_284
 JOINED_APPID_SHA256 = "0277513a92cee39bc7b706cfe6adaf97fabfdcc13ea38b8c000e0af9e524c8df"
 
-TRAIN_ROWS = 97_026
-TRAIN_APPID_SHA256 = "4279b52ec340ab88560ebc3493d6b4ef9812a950da1441aa370ce90af2be379d"
+SCOPED_ROWS = 6_601
+SCOPED_APPID_SHA256 = "65303df87f57f12688a33b2caf17459c7387ef7a4075a1ac8e892a8f0230b7e4"
 
-TEST_ROWS = 24_258
-TEST_APPID_SHA256 = "1f3b350373bfe4c4a1e6a30c97465ebb674dadff9723c8b87ef52039ff2cdb38"
+TRAIN_ROWS = 5_281
+TRAIN_APPID_SHA256 = "4a98dafd48a34d0baa5d0d67e7f6f34cfc2541cb969fc220ed66a97c2f8271ea"
+
+TEST_ROWS = 1_320
+TEST_APPID_SHA256 = "9675b95cd06e63c3f005c98973c54d92057d2c08463e540d12dc71265f516ca1"
 
 # Year the Steam archive was pulled. Used for game age, so it stays fixed with
 # the pinned dataset rather than moving with the clock.

@@ -43,21 +43,13 @@ They may have limited budgets to run experiments or buy market research, so seco
 
 ### 2b Analytical questions
 
-1. Are critic reviews a good estimator for player reviews? Critics are often the first to review a game and early reviews by critics could be generalisable to the larger gamer population. We study whether $\bar{x}_{critics}$ is a good estimator for $\mu_{players}$ after scaling.
+1. What is a good metric for evaluating a game's success? We evaluate multiple possible metrics such as reviews, total playtime, completion rate.
+2. Can we predict how successful a game will be? We study if, using the available data, we can build a model that holds some predictive power in predicting success.
+3. What factors seem to be the most important for a game? We want to study if there are certain factors that are especially important that determine the success of a game, and highlight ones that a studio can control.
+4. How do we translate these actionable insights into decisions that a business can make? For example, are there markets that are more important to user scores?
+5. How does the number of player reviews affect the reliability of estimated player reception?
 
-2. Can controllable variables help us understand how well a game is received? A game studio can only control certain factors, and we want to understand if there is any predictive performance in these factors to predict its positive review rate.
-
-$$positive_i \sim \text{BetaBinomial}(n_i,\ \mu_i,\ \phi), \qquad n_i = positive_i + negative_i$$
-
-$$\text{logit}(\mu_i) = \beta_0 + \beta_{genre} + \beta_{price} price_i + \beta_{age} age_i + \dots + u_{developer[i]}$$
-
-   $u_{developer[i]}$ is a random effect, since games from one studio are not independent observations.
-
-3. Similar to AQ2, we want to understand if game completion rate can be predicted. Unlike review counts and owner estimates, the ratio does not inflate with a game's audience size, though its precision still depends on how many players and how many completion reports sit behind each side.
-
-$$ratio_i = \frac{median\_playtime\_forever_i / 60}{main\_story_i}, \qquad ratio_i \sim \text{Gamma}(\mu_i,\ \phi)$$
-
-$$\log(\mu_i) = \beta_0 + \beta_{genre} + \beta_{price} price_i + \beta_{age} age_i + \dots + u_{developer[i]}$$
+Notebooks map one to one: AQ1 `01_eda`, AQ2 `03_aq2_modelling`, AQ3 `04_aq3_factor_importance`, AQ4 `05_aq4_decisions`, AQ5 `06_aq5_review_reliability`. The study population is story-driven games matched to HowLongToBeat (notebook `00`). AQ2 and AQ3 regress the log completion ratio on game characteristics, with one frequentist and one Bayesian model each.
 
 ### 2c Context and novelty
 
@@ -84,7 +76,7 @@ Many games are open ended and thus have no set typical playtime (e.g. competitiv
 
 https://www.kaggle.com/datasets/fronkongames/steam-games-dataset https://www.kaggle.com/datasets/b4n4n4p0wer/how-long-to-beat-video-game-playtime-dataset
 
-The Steam file covers published games only, with no DLC, episodes, music or videos. There is no shared identifier, so the join is on normalised title plus release year and notebook `02` records the match rate.
+The Steam file covers published games only, with no DLC, episodes, music or videos. There is no shared identifier, so the join is on normalised title, with release year used to pick between candidates, and notebook `00` records the match rate.
 
 Playtime and ownership come from SteamSpy rather than Valve. SteamSpy infers them from public Steam profiles, which are public by choice, so both are estimates from a self-selected sample rather than published counts.
 
