@@ -1,0 +1,32 @@
+feature,label,block,controllable,rank_ols_effect,rank_bayes_effect,rank_perm_ols,rank_perm_bayes,mean_rank,clear_in_both,survives_influence_refits,vif_above_5
+flag_has_achievements,has achievements,store features,True,3.0,1.0,1.0,1.0,1.5,True,True,True
+steam_years_since_release,years since release,not controllable,False,5.0,2.0,2.0,2.0,2.75,True,True,False
+feature_log_achievements,achievements (log),store features,True,4.0,3.0,4.0,4.0,3.75,True,True,True
+cat_trading_cards,trading cards,store features,True,7.0,7.0,3.0,3.0,5.0,True,True,False
+genre_rpg,genre: rpg,genre,True,9.0,6.0,5.0,5.0,6.25,True,True,False
+genre_strategy,genre: strategy,genre,True,6.0,5.0,8.0,11.0,7.5,True,True,False
+genre_casual,genre: casual,genre,True,10.0,9.0,7.0,7.0,8.25,True,True,False
+cat_controller,controller support,store features,True,13.0,16.0,6.0,9.0,11.0,True,True,False
+genre_indie,genre: indie,genre,True,14.0,12.0,10.0,8.0,11.0,False,True,False
+flag_has_full_audio,full audio in any language,localisation,True,16.0,15.0,9.0,6.0,11.5,False,False,False
+cat_vr,VR,store features,True,8.0,8.0,16.0,17.0,12.25,False,True,False
+cat_steam_cloud,Steam Cloud,store features,True,15.0,13.0,12.0,10.0,12.5,False,True,False
+feature_log_audio_language_count,audio languages (log),localisation,True,12.0,11.0,11.0,18.0,13.0,False,False,False
+flag_free_to_play,free to play,price,True,11.0,10.0,18.0,16.0,13.75,False,False,False
+feature_log_dev_game_count,developer's other games (log),not controllable,False,19.0,14.0,13.0,12.0,14.5,False,False,False
+steam_mac,Mac version,platforms,True,21.0,17.0,14.0,13.0,16.25,False,False,False
+genre_action,genre: action,genre,True,18.0,18.0,15.0,14.0,16.25,False,False,False
+genre_early_access,genre: early access,genre,True,2.0,4.0,31.0,30.0,16.75,False,True,False
+flag_missing_genre,genre missing,not controllable,False,1.0,28.0,20.0,25.0,18.5,False,False,False
+flag_has_website,has website,storefront,True,17.0,22.0,19.0,19.0,19.25,False,False,False
+flag_q4_release,Q4 release,release timing,True,26.0,23.0,17.0,15.0,20.25,False,False,False
+genre_simulation,genre: simulation,genre,True,20.0,21.0,21.0,20.0,20.5,False,False,False
+flag_self_published,self-published,publishing,True,23.0,27.0,24.0,21.0,23.75,False,False,False
+cat_coop,co-op,store features,True,31.0,19.0,26.0,22.0,24.5,False,False,False
+flag_has_support_contact,has support contact,storefront,True,25.0,26.0,25.0,24.0,25.0,False,False,False
+feature_log_price,price (log),price,True,24.0,20.0,28.0,31.0,25.75,False,False,False
+cat_multiplayer,multiplayer,store features,True,28.0,24.0,27.0,26.0,26.25,False,False,False
+flag_age_restricted,age restricted,content rating,True,22.0,30.0,30.0,23.0,26.25,False,False,False
+genre_adventure,genre: adventure,genre,True,29.0,31.0,22.0,27.0,27.25,False,False,False
+feature_log_language_count_imputed,interface languages (log),localisation,True,27.0,25.0,29.0,29.0,27.5,False,False,False
+steam_linux,Linux version,platforms,True,30.0,29.0,23.0,28.0,27.5,False,False,False

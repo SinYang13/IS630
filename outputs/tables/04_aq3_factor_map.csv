@@ -1,0 +1,32 @@
+feature,label,block,controllable,type
+feature_log_price,price (log),price,True,continuous
+flag_free_to_play,free to play,price,True,binary
+steam_years_since_release,years since release,not controllable,False,continuous
+flag_q4_release,Q4 release,release timing,True,binary
+steam_mac,Mac version,platforms,True,binary
+steam_linux,Linux version,platforms,True,binary
+feature_log_language_count_imputed,interface languages (log),localisation,True,continuous
+feature_log_audio_language_count,audio languages (log),localisation,True,continuous
+flag_has_full_audio,full audio in any language,localisation,True,binary
+feature_log_achievements,achievements (log),store features,True,continuous
+flag_has_achievements,has achievements,store features,True,binary
+flag_age_restricted,age restricted,content rating,True,binary
+cat_multiplayer,multiplayer,store features,True,binary
+cat_coop,co-op,store features,True,binary
+cat_controller,controller support,store features,True,binary
+cat_steam_cloud,Steam Cloud,store features,True,binary
+cat_trading_cards,trading cards,store features,True,binary
+cat_vr,VR,store features,True,binary
+genre_indie,genre: indie,genre,True,binary
+genre_casual,genre: casual,genre,True,binary
+genre_action,genre: action,genre,True,binary
+genre_adventure,genre: adventure,genre,True,binary
+genre_simulation,genre: simulation,genre,True,binary
+genre_strategy,genre: strategy,genre,True,binary
+genre_rpg,genre: rpg,genre,True,binary
+genre_early_access,genre: early access,genre,True,binary
+flag_missing_genre,genre missing,not controllable,False,binary
+flag_self_published,self-published,publishing,True,binary
+feature_log_dev_game_count,developer's other games (log),not controllable,False,continuous
+flag_has_website,has website,storefront,True,binary
+flag_has_support_contact,has support contact,storefront,True,binary
