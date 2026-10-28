@@ -1,0 +1,19 @@
+,value
+model,notebook 04 reduced (controllable) Bayesian hierarchical model on the log completion ratio
+fitted_on,"development split (02_train), as in notebook 04"
+predictors,16
+predictor_list,"feature_log_achievements, flag_has_achievements, cat_multiplayer, cat_coop, cat_controller, cat_steam_cloud, cat_trading_cards, cat_vr, genre_indie, genre_casual, genre_action, genre_adventure, genre_simulation, genre_strategy, genre_rpg, genre_early_access"
+priors,"{""intercept"": 1.0, ""beta"": 0.5, ""sigma_dev"": 0.5, ""sigma"": 1.0, ""tau"": 1.0}"
+sampler,"{""draws"": 1000, ""tune"": 1000, ""chains"": 4, ""target_accept"": 0.9, ""nuts_sampler"": ""numpyro"", ""random_seed"": 42}"
+seed,42
+thresholds,"{""min_reviews_reception"": 10, ""min_reviews_completion"": 50, ""min_hltb_polls"": 5}"
+final_refit,"same model on every game in scope after scoring, not scored; if it misses a convergence threshold, re-sampled once with twice the draws and tuning"
+validation_games,482
+validation_RMSE,1.0361797397669967
+validation_R2_vs_baseline,0.1456469325463113
+git_commit,e40ce93d9d3fb5676210722f2bdc3ae48646c743
+uncommitted_changes,"M notebooks/01_eda.ipynb
+ M notebooks/02_cleaning_and_features.ipynb
+ M notebooks/07_final_test_scoring.ipynb
+ M src/is630/features.py"
+frozen_at_utc,2026-10-28T04:19:51+00:00

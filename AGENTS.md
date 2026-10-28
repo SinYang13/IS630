@@ -95,10 +95,18 @@ it, applies its changes, and saves the result for the next stage. Only notebook
   predictors into the target. Notebook `00` compares matched against unmatched
   story-driven games once, before dropping them. That comparison is the
   selection limitation.
-- **Never load `00_test_holdout.parquet`.** It is scored once, in the final
-  notebook, and nothing is refitted or reselected afterwards. Do not use it for
-  EDA, for choosing a model, for tuning, or for checking whether a result holds.
-  If a result needs checking, split a validation set out of the training data.
+- **Never load `00_test_holdout.parquet`.** Only notebook `07` reads it. It
+  scores the frozen controllable model, fitted on the development split, once,
+  and nothing is reselected or tuned afterwards. Do not use it for EDA, for
+  choosing a model, for tuning, or for checking whether a result holds. If a
+  result needs checking, split a validation set out of the training data.
+- After scoring, notebook `07` refits the same model, unchanged, on every game
+  in scope, holdout included. The group decided this on 28 Oct 2026. That refit
+  is the final model for reporting effects, but it is never scored: it has seen
+  every game. The test performance is the development-split fit's score.
+- Notebook `07` was run on 28 Oct 2026. Do not re-run it. If an upstream change
+  forces a re-run, the test is no longer untouched, and the group has to
+  disclose that.
 
 ## Authorship and interpretation
 
