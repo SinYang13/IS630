@@ -1,0 +1,3 @@
+test,statistic,df,p_value,effect_size,effect_measure
+Welch's ANOVA,49.59006787674064,"4, 1925.3",9.174409614341673e-40,0.031022322002613567,omega squared
+Kruskal-Wallis,133.92522886127253,4,5.633471949620208e-28,0.026040293381542394,epsilon squared
