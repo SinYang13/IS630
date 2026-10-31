@@ -104,9 +104,14 @@ it, applies its changes, and saves the result for the next stage. Only notebook
   in scope, holdout included. The group decided this on 28 Oct 2026. That refit
   is the final model for reporting effects, but it is never scored: it has seen
   every game. The test performance is the development-split fit's score.
-- Notebook `07` was run on 28 Oct 2026. Do not re-run it. If an upstream change
-  forces a re-run, the test is no longer untouched, and the group has to
-  disclose that.
+- Notebook `07` first scored the holdout on 28 Oct 2026. Re-running it is
+  allowed only when the model, its inputs and every cell up to and including
+  scoring are unchanged, so the run reproduces the same scores. After any
+  re-run, check that every `07_*` score table and `07_test_predictions.parquet`
+  are identical to the previous run; only `07_frozen_choices.csv` (timestamp and
+  commit) may differ. It was re-run on 31 Oct 2026 to add charts, with identical
+  scores. If an upstream change alters the scores, the test is no longer
+  untouched, and the group has to disclose that.
 
 ## Authorship and interpretation
 

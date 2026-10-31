@@ -11,9 +11,12 @@ final_refit,"same model on every game in scope after scoring, not scored; if it 
 validation_games,482
 validation_RMSE,1.0361797397669967
 validation_R2_vs_baseline,0.1456469325463113
-git_commit,e40ce93d9d3fb5676210722f2bdc3ae48646c743
-uncommitted_changes,"M notebooks/01_eda.ipynb
- M notebooks/02_cleaning_and_features.ipynb
- M notebooks/07_final_test_scoring.ipynb
- M src/is630/features.py"
-frozen_at_utc,2026-10-28T04:19:51+00:00
+git_commit,24c76b116757fe5b6d7c652803381cea2bc7f1dd
+uncommitted_changes,"M notebooks/07_final_test_scoring.ipynb
+ D outputs/figures/07_final_model_effects.png
+ D outputs/figures/07_test_vs_validation.png
+ M outputs/tables/07_frozen_choices.csv
+?? outputs/figures/07_final_model_multipliers.png
+?? outputs/figures/07_train_validation_test.png
+?? outputs/tables/07_train_validation_test.csv"
+frozen_at_utc,2026-10-30T16:11:49+00:00
